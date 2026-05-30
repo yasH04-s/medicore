@@ -1,0 +1,84 @@
+import { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
+
+const navLinks = ['Features', 'Modules', 'FAQ'];
+
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+    setIsMobileOpen(false);
+  };
+
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-lg shadow-lg' : 'bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <img src="/logo.png" alt="Medicore Vault" className="h-10" />
+            <div>
+              <span className="text-navy font-bold text-xl">Medicore Vault</span>
+              <p className="text-xs text-gray-500">Secure Care, Limitless Trust</p>
+            </div>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <button
+                key={link}
+                onClick={() => scrollTo(link)}
+                className="text-gray-600 hover:text-navy font-medium transition-colors"
+              >
+                {link}
+              </button>
+            ))}
+            <button 
+              onClick={() => scrollTo('demo')}
+              className="bg-magenta text-white rounded-full px-6 py-2.5 font-semibold hover:shadow-lg hover:scale-105 transition-all"
+            >
+              Book Demo
+            </button>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button className="md:hidden text-navy" onClick={() => setIsMobileOpen(!isMobileOpen)}>
+            {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Dropdown */}
+      {isMobileOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur-lg border-t border-gray-100 shadow-lg">
+          <div className="px-4 py-4 space-y-2">
+            {navLinks.map((link) => (
+              <button
+                key={link}
+                onClick={() => scrollTo(link)}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:text-navy hover:bg-navy/5 rounded-xl font-medium transition-colors"
+              >
+                {link}
+              </button>
+            ))}
+            <button 
+              onClick={() => scrollTo('demo')}
+              className="w-full bg-magenta text-white rounded-full px-6 py-2.5 font-semibold mt-2 hover:shadow-lg transition-all"
+            >
+              Book Demo
+            </button>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}

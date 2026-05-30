@@ -10,6 +10,7 @@ import DemoForm from './components/DemoForm'
 import Testimonials from './components/Testimonials'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
+import WhatsAppWidget from './components/WhatsAppWidget'
 
 export default function App() {
   return (
@@ -26,6 +27,8 @@ export default function App() {
       <Testimonials />
       <FAQ />
       <Footer />
+      <WhatsAppWidget />
     </div>
   )
 }
+

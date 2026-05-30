@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { FAQ, Module, Feature, Testimonial, Partner, DemoRequest } = require('./models');
+const { handleIncomingMessage } = require('./chatbot');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -93,6 +95,72 @@ app.get('/api/demo', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// --- WhatsApp Business Webhook Endpoints ---
+
+/**
+ * Verification GET endpoint for Meta to authorize the webhook configuration.
+ */
+app.get('/webhook', (req, res) => {
+  const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
+  
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if (mode && token) {
+    if (mode === 'subscribe' && token === verifyToken) {
+      console.log('[Webhook] Verification successful.');
+      return res.status(200).send(challenge);
+    } else {
+      console.warn('[Webhook] Verification failed. Verify tokens mismatch.');
+      return res.sendStatus(403);
+    }
+  }
+  
+  return res.status(400).send('Missing hub parameters');
+});
+
+/**
+ * POST endpoint to receive real-time notifications/messages from WhatsApp Cloud API.
+ */
+app.post('/webhook', async (req, res) => {
+  const body = req.body;
+
+  // Log payload for tracking incoming interactions
+  console.log('[Webhook] Received WhatsApp event payload:', JSON.stringify(body, null, 2));
+
+  if (body.object === 'whatsapp_business_account') {
+    try {
+      const entry = body.entry?.[0];
+      const change = entry?.changes?.[0];
+      const value = change?.value;
+      
+      if (value && value.messages && value.messages[0]) {
+        const message = value.messages[0];
+        const from = message.from;
+        
+        if (message.type === 'text') {
+          const text = message.text.body;
+          console.log(`[Webhook] Text message received from ${from}: "${text}"`);
+          
+          // Reply asynchronously using our chatbot auto-reply logic
+          await handleIncomingMessage(from, text);
+        } else {
+          console.log(`[Webhook] Received message of type "${message.type}" from ${from} (skipping auto-reply).`);
+        }
+      }
+      
+      return res.status(200).send('EVENT_RECEIVED');
+    } catch (error) {
+      console.error('[Webhook] Error processing incoming WhatsApp event:', error);
+      return res.status(500).send('INTERNAL_SERVER_ERROR');
+    }
+  } else {
+    return res.sendStatus(404);
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);

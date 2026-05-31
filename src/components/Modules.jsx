@@ -5,7 +5,7 @@ export default function Modules() {
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    fetch('/api/modules')
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/modules`)
       .then(res => res.json())
       .then(data => setModules(data))
       .catch(err => console.error(err));

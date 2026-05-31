@@ -6,9 +6,9 @@ export default function TrustedPartners() {
 
   useEffect(() => {
 <<<<<<< HEAD
-    fetch('/api/partners')
+    fetch(${import.meta.env.VITE_API_URL || ''}/api/partners)
 =======
-      fetch('/api/partners')
+      fetch(${import.meta.env.VITE_API_URL || ''}/api/partners)
 >>>>>>> 659b0e7ed6652c7aec3d8e63baf1af600d5f529b
       .then(res => res.json())
       .then(data => setPartners(data))

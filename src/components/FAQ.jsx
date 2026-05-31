@@ -7,9 +7,9 @@ export default function FAQ() {
 
   useEffect(() => {
 <<<<<<< HEAD
-    fetch('/api/faqs')
+    fetch(${import.meta.env.VITE_API_URL || ''}/api/faqs)
 =======
-      fetch('/api/faqs')
+      fetch(${import.meta.env.VITE_API_URL || ''}/api/faqs)
 >>>>>>> 659b0e7ed6652c7aec3d8e63baf1af600d5f529b
       .then(res => res.json())
       .then(data => setFaqs(data))

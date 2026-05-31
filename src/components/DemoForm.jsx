@@ -27,7 +27,7 @@ export default function DemoForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/demo', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/demo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

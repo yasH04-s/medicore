@@ -5,7 +5,7 @@ export default function Features() {
   const [features, setFeatures] = useState([]);
 
   useEffect(() => {
-    fetch('/api/features')
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/features`)
       .then(res => res.json())
       .then(data => setFeatures(data))
       .catch(err => console.error(err));

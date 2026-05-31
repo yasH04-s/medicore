@@ -5,11 +5,7 @@ export default function TrustedPartners() {
   const [partners, setPartners] = useState([]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    fetch(${import.meta.env.VITE_API_URL || ''}/api/partners)
-=======
-      fetch(${import.meta.env.VITE_API_URL || ''}/api/partners)
->>>>>>> 659b0e7ed6652c7aec3d8e63baf1af600d5f529b
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/partners`)
       .then(res => res.json())
       .then(data => setPartners(data))
       .catch(err => console.error(err));

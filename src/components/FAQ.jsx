@@ -6,11 +6,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   useEffect(() => {
-<<<<<<< HEAD
-    fetch(${import.meta.env.VITE_API_URL || ''}/api/faqs)
-=======
-      fetch(${import.meta.env.VITE_API_URL || ''}/api/faqs)
->>>>>>> 659b0e7ed6652c7aec3d8e63baf1af600d5f529b
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/faqs`)
       .then(res => res.json())
       .then(data => setFaqs(data))
       .catch(err => console.error(err));

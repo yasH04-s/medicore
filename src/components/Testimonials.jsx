@@ -32,11 +32,7 @@ export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    fetch(${import.meta.env.VITE_API_URL || ''}/api/testimonials)
-=======
-        fetch(${import.meta.env.VITE_API_URL || ''}/api/testimonials)
->>>>>>> 659b0e7ed6652c7aec3d8e63baf1af600d5f529b
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/testimonials`)
       .then(res => res.json())
       .then(data => setTestimonials(data))
       .catch(err => console.error(err));

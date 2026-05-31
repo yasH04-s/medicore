@@ -5,7 +5,7 @@ export default function TrustedPartners() {
   const [partners, setPartners] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/partners')
+      fetch('/api/partners')
       .then(res => res.json())
       .then(data => setPartners(data))
       .catch(err => console.error(err));

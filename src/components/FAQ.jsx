@@ -6,7 +6,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/faqs')
+      fetch('/api/faqs')
       .then(res => res.json())
       .then(data => setFaqs(data))
       .catch(err => console.error(err));

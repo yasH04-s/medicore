@@ -5,7 +5,7 @@ export default function Modules() {
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/modules')
+    fetch('/api/modules')
       .then(res => res.json())
       .then(data => setModules(data))
       .catch(err => console.error(err));

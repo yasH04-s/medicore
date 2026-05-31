@@ -32,7 +32,11 @@ export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
+<<<<<<< HEAD
     fetch('/api/testimonials')
+=======
+        fetch('/api/testimonials')
+>>>>>>> 659b0e7ed6652c7aec3d8e63baf1af600d5f529b
       .then(res => res.json())
       .then(data => setTestimonials(data))
       .catch(err => console.error(err));

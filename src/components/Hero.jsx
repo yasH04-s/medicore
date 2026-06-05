@@ -1,24 +1,27 @@
 import { Zap, ArrowRight, Play, Activity, Calendar, Heart, Shield, Users, Stethoscope, HeartPulse } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-screen bg-gray-50 overflow-hidden flex items-center pt-20">
-      {/* Decorative Circles */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-navy/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-magenta/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-navy/5 rounded-full blur-3xl animate-pulse" />
+  const navigate = useNavigate();
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+  return (
+    <section className="relative pt-32 pb-20 bg-white overflow-hidden">
+      {/* Soft Background Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-400/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-5%] w-[500px] h-[500px] bg-magenta/15 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[20%] w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 bg-magenta/10 text-magenta px-4 py-2 rounded-full text-sm font-semibold">
-              <Zap size={16} />
+            <div className="inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm border border-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium shadow-sm">
+              <Zap size={16} className="text-magenta" />
               Trusted by 500+ Hospitals Worldwide
             </div>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="text-magenta">Smart Hospital</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-magenta">Smart Hospital</span>
               <br />
               <span className="text-navy">Management System</span>
             </h1>
@@ -29,7 +32,10 @@ export default function Hero() {
 
             <div className="flex flex-wrap gap-4">
               <button 
-                onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => {
+                  navigate('/demo');
+                  window.scrollTo(0, 0);
+                }}
                 className="bg-magenta text-white rounded-full px-8 py-3.5 font-semibold hover:shadow-lg hover:scale-105 transition-all inline-flex items-center gap-2"
               >
                 Book a Demo

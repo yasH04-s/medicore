@@ -40,11 +40,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 cursor-pointer">
-            <img src="/logo.png" alt="Medicore Vault" className="h-10 mix-blend-multiply" />
-            <div>
-              <span className="text-navy font-bold text-xl">Medicore Vault</span>
-              <p className="text-xs text-gray-500">Secure Care, Limitless Trust</p>
-            </div>
+            <img src="/logo.png" alt="Medicore Vault" className="h-16 mix-blend-multiply" />
           </Link>
 
           {/* Desktop Nav */}

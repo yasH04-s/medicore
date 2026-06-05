@@ -1,6 +1,6 @@
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import TrustedPartners from './components/TrustedPartners'
 import About from './components/About'
 import Modules from './components/Modules'
 import Features from './components/Features'
@@ -12,23 +12,39 @@ import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import WhatsAppWidget from './components/WhatsAppWidget'
 
-export default function App() {
+function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
+    <>
       <Hero />
-      <TrustedPartners />
       <About />
       <Modules />
       <Features />
       <DashboardPreview />
       <VideoDemo />
-      <DemoForm />
       <Testimonials />
       <FAQ />
-      <Footer />
       <WhatsAppWidget />
+    </>
+  );
+}
+
+function DemoPage() {
+  return (
+    <div className="pt-24 min-h-screen">
+      <DemoForm />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/demo" element={<DemoPage />} />
+      </Routes>
+      <Footer />
     </div>
   )
 }
-

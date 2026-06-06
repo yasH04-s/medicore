@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import TrustedPartners from './components/TrustedPartners'
 import About from './components/About'
 import Modules from './components/Modules'
 import Features from './components/Features'
@@ -19,7 +18,6 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <TrustedPartners />
       <About />
       <Modules />
       <Features />

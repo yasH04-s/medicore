@@ -10,6 +10,15 @@ const demoRequestSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// User Schema
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  hospitalName: { type: String, required: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
 // FAQ Schema
 const faqSchema = new mongoose.Schema({
   q: { type: String, required: true },
@@ -55,6 +64,7 @@ const Module = mongoose.model('Module', moduleSchema);
 const Feature = mongoose.model('Feature', featureSchema);
 const Testimonial = mongoose.model('Testimonial', testimonialSchema);
 const Partner = mongoose.model('Partner', partnerSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = {
   DemoRequest,
@@ -62,5 +72,6 @@ module.exports = {
   Module,
   Feature,
   Testimonial,
-  Partner
+  Partner,
+  User
 };

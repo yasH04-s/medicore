@@ -8,6 +8,8 @@ import Features from './components/Features'
 import DashboardPreview from './components/DashboardPreview'
 import VideoDemo from './components/VideoDemo'
 import DemoForm from './components/DemoForm'
+import Login from './components/Login'
+import Signup from './components/Signup'
 import Testimonials from './components/Testimonials'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
@@ -45,6 +47,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/demo" element={<DemoPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
       <Footer />
     </div>

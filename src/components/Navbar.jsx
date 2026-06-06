@@ -58,6 +58,9 @@ export default function Navbar() {
                 {link}
               </button>
             ))}
+            <Link to="/login" className="text-magenta font-semibold hover:text-navy transition-colors">
+              Log In
+            </Link>
             <button 
               onClick={() => handleNav('demo')}
               className="bg-magenta text-white rounded-full px-6 py-2.5 font-semibold hover:shadow-lg hover:scale-105 transition-all"
@@ -86,6 +89,9 @@ export default function Navbar() {
                 {link}
               </button>
             ))}
+            <Link to="/login" onClick={() => setIsMobileOpen(false)} className="block w-full text-left px-4 py-3 text-magenta hover:bg-magenta/5 rounded-xl font-semibold transition-colors">
+              Log In
+            </Link>
             <button 
               onClick={() => handleNav('demo')}
               className="w-full bg-magenta text-white rounded-full px-6 py-2.5 font-semibold mt-2 hover:shadow-lg transition-all"

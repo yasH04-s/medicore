@@ -2,7 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const { FAQ, Module, Feature, Testimonial, Partner, DemoRequest } = require('./models');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { FAQ, Module, Feature, Testimonial, Partner, DemoRequest, User } = require('./models');
 const { handleIncomingMessage } = require('./chatbot');
 
 
@@ -22,6 +24,51 @@ mongoose.connect(process.env.MONGO_URI)
 });
 
 // --- API Endpoints ---
+
+// Auth Endpoints
+app.post('/api/auth/signup', async (req, res) => {
+  const { name, email, hospitalName, password } = req.body;
+  if (!name || !email || !hospitalName || !password) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    
+    const newUser = new User({ name, email, hospitalName, password: hashedPassword });
+    await newUser.save();
+    
+    res.status(201).json({ message: 'User created successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ error: 'Invalid credentials' });
+    
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
+    
+    const payload = { userId: user._id, email: user.email, name: user.name };
+    const secret = process.env.JWT_SECRET || 'fallback_secret_for_dev';
+    const token = jwt.sign(payload, secret, { expiresIn: '1d' });
+    
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email, hospitalName: user.hospitalName } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Content Endpoints
 app.get('/api/faqs', async (req, res) => {

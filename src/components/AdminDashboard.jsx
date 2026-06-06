@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, TrendingUp, Users, Activity, Settings, Bell, Search } from 'lucide-react';
+import { LogOut, TrendingUp, Users, Activity, Settings, Bell, Search, Menu, X } from 'lucide-react';
 
 const ProgressBar = ({ label, value }) => (
   <div className="mb-4">
@@ -18,6 +18,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   // Check auth and load data
@@ -84,11 +85,25 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-12 flex">
+    <div className="min-h-screen bg-gray-50 pt-20 pb-12 flex relative">
+      
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-40 lg:hidden" 
+          onClick={() => setIsSidebarOpen(false)} 
+        />
+      )}
+
       {/* Sidebar Navigation */}
-      <aside className="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col">
+      <aside className={`fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 flex flex-col z-50 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-6">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Menu</p>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Menu</p>
+            <button className="lg:hidden text-gray-400 hover:text-navy" onClick={() => setIsSidebarOpen(false)}>
+              <X size={20} />
+            </button>
+          </div>
           <nav className="space-y-2">
             <a href="#" className="flex items-center gap-3 px-4 py-3 bg-magenta/10 text-magenta rounded-xl font-medium">
               <TrendingUp size={20} /> Dashboard
@@ -115,13 +130,21 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 lg:ml-64 px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-navy">Welcome back, {user.name}</h1>
-            <p className="text-gray-500 text-sm mt-1">{user.hospitalName} • Admin View</p>
+          <div className="flex items-center gap-3">
+            <button 
+              className="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <Menu size={24} />
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold text-navy">Welcome back, {user.name}</h1>
+              <p className="text-gray-500 text-sm mt-1">{user.hospitalName} • Admin View</p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <div className="relative">

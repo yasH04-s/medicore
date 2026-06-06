@@ -15,11 +15,6 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm border border-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium shadow-sm">
-              <Zap size={16} className="text-magenta" />
-              Trusted by 500+ Hospitals Worldwide
-            </div>
-
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-magenta">Smart Hospital</span>
               <br />

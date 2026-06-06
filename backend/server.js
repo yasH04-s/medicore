@@ -15,6 +15,21 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Auth Middleware
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (!token) return res.sendStatus(401);
+
+  const secret = process.env.JWT_SECRET || 'fallback_secret_for_dev';
+  jwt.verify(token, secret, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Connected to MongoDB Atlas'))
@@ -65,6 +80,32 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign(payload, secret, { expiresIn: '1d' });
     
     res.json({ token, user: { id: user._id, name: user.name, email: user.email, hospitalName: user.hospitalName } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin Analytics Endpoint
+app.get('/api/admin/stats', authenticateToken, async (req, res) => {
+  try {
+    const totalStaff = await User.countDocuments();
+    const totalPatients = await DemoRequest.countDocuments() + 1200; // Fake some base data
+    
+    // Generate dynamic pseudo-data for the rest
+    const baseRevenue = 1000000;
+    const revenue = baseRevenue + (totalPatients * 150) + (totalStaff * 500);
+    
+    res.json({
+      totalStaff,
+      totalPatients,
+      revenue: `$${(revenue / 1000000).toFixed(1)}M`,
+      bedOccupancy: Math.floor(Math.random() * 15) + 80, // Random between 80-95
+      departmentPerformance: {
+        emergency: Math.floor(Math.random() * 10) + 90,
+        surgery: Math.floor(Math.random() * 15) + 80,
+        radiology: Math.floor(Math.random() * 10) + 85
+      }
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

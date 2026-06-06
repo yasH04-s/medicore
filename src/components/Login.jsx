@@ -27,9 +27,8 @@ export default function Login() {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       
-      // Navigate to dashboard later, for now back home
-      navigate('/');
-      alert(`Welcome back, ${data.user.name}!`);
+      // Navigate to dashboard
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     } finally {

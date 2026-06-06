@@ -9,6 +9,7 @@ import VideoDemo from './components/VideoDemo'
 import DemoForm from './components/DemoForm'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import AdminDashboard from './components/AdminDashboard'
 import Testimonials from './components/Testimonials'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/demo" element={<DemoPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<AdminDashboard />} />
       </Routes>
       <Footer />
     </div>

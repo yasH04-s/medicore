@@ -22,7 +22,7 @@ export default function About() {
           {/* Left */}
           <div>
             <span className="text-magenta font-semibold text-sm">About Medicore Vault</span>
-            <h2 className="text-4xl font-bold text-navy mt-3 mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy mt-3 mb-6 leading-tight tracking-tight">
               Centralized Healthcare
               <br />
               <span className="text-magenta">Operations Platform</span>

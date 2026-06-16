@@ -37,9 +37,9 @@ export default function Modules() {
                 </div>
                 <h3 className="text-lg font-bold text-navy mb-2">{mod.name}</h3>
                 <p className="text-gray-600 text-sm mb-4">{mod.desc}</p>
-                <span className="text-sm font-semibold text-magenta opacity-0 group-hover:opacity-100 transition-opacity">
+                {/* <span className="text-sm font-semibold text-magenta opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more →
-                </span>
+                </span> */}
               </div>
             );
           })}

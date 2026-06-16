@@ -15,7 +15,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-magenta">Smart Hospital</span>
               <br />
               <span className="text-navy">Management System</span>
@@ -45,7 +45,7 @@ export default function Hero() {
               </button>
             </div>
 
-            <div className="flex gap-8 pt-4">
+            {/* <div className="flex gap-8 pt-4">
               <div>
                 <p className="text-2xl font-bold text-navy">500+</p>
                 <p className="text-sm text-gray-500">Hospitals</p>
@@ -58,7 +58,7 @@ export default function Hero() {
                 <p className="text-2xl font-bold text-navy">99.9%</p>
                 <p className="text-sm text-gray-500">Uptime</p>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right Dashboard Card */}

@@ -24,7 +24,7 @@ function HomePage() {
       <Features />
       <DashboardPreview />
       <VideoDemo />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <FAQ />
       <WhatsAppWidget />
     </>

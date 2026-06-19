@@ -51,8 +51,8 @@ export default function VideoDemo() {
                   autoPlay 
                   name="media"
                 >
-                  {/* Replace the src URL below with the link to your actual MP4 file */}
-                  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+                  {/* Using the local MP4 file from the public directory */}
+                  <source src="/HMS_Web_V2.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>

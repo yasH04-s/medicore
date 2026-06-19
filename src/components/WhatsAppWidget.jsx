@@ -1,7 +1,7 @@
 import { MessageCircle } from 'lucide-react';
 
 export default function WhatsAppWidget() {
-  const phoneNumber = '15551234567'; // Replace with your actual WhatsApp Business number
+  const phoneNumber = '918618740880'; // Replace with your actual WhatsApp Business number
   const message = encodeURIComponent('Hi! I have a question about Medicore Vault.');
 
   return (

@@ -1,12 +1,12 @@
-import { Globe, Briefcase, Code, Mail, Phone, MapPin } from 'lucide-react';
+import { Globe, Instagram, Code, Mail, Phone, MapPin } from 'lucide-react';
 
 const productLinks = ['Features', 'Modules', 'Security', 'Integrations'];
 const moduleLinks = ['Doctor Portal', 'Patient Management', 'Billing System', 'Pharmacy', 'Laboratory'];
 const socials = [
   { icon: Globe, href: '#' },
-  { icon: Briefcase, href: '#' },
+  { icon: Instagram, href: 'https://www.instagram.com/medicorevault/' },
   { icon: Code, href: '#' },
-  { icon: Mail, href: '#' },
+  { icon: Mail, href: 'mailto:medicorevault@gmail.com' },
 ];
 
 export default function Footer() {
@@ -75,20 +75,20 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-magenta shrink-0 mt-0.5" />
-                <a href="mailto:support@medicorevault.com" className="text-gray-400 hover:text-white transition-colors">
-                  support@medicorevault.com
+                <a href="mailto:medicorevault@gmail.com" className="text-gray-400 hover:text-white transition-colors">
+                  medicorevault@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-magenta shrink-0 mt-0.5" />
-                <a href="tel:+15551234567" className="text-gray-400 hover:text-white transition-colors">
-                  +1 (555) 123-4567
+                <a href="tel:+918618740880" className="text-gray-400 hover:text-white transition-colors">
+                  +91 861 874 0880
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-magenta shrink-0 mt-0.5" />
-                <span className="text-gray-400">
-                  123 Healthcare Blvd, San Francisco, CA
+                <span className="text-gray-400 text-sm">
+                  No.50/7, 5th Floor, 16th Main, 39th Cross<br/>Jayanagar 4th T Block, Bangalore-560041
                 </span>
               </li>
             </ul>

@@ -44,9 +44,17 @@ export default function VideoDemo() {
               </>
             ) : (
               /* Playing state */
-              <div className="absolute inset-0 bg-navy flex flex-col items-center justify-center gap-4">
-                <Loader2 className="w-10 h-10 text-white animate-spin" />
-                <p className="text-white/70 text-sm">Video player would be embedded here</p>
+              <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
+                <video 
+                  className="w-full h-full object-cover" 
+                  controls 
+                  autoPlay 
+                  name="media"
+                >
+                  {/* Replace the src URL below with the link to your actual MP4 file */}
+                  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
             )}
           </div>

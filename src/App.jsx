@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -40,9 +40,12 @@ function DemoPage() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      {!isDashboard && <Navbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/demo" element={<DemoPage />} />
@@ -50,7 +53,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<AdminDashboard />} />
       </Routes>
-      <Footer />
+      {!isDashboard && <Footer />}
     </div>
   )
 }

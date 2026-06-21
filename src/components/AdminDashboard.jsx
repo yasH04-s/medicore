@@ -126,7 +126,7 @@ export default function AdminDashboard() {
           <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-4">Menu</div>
           <nav className="space-y-2">
             <a href="#" className="flex items-center gap-3 px-4 py-3 bg-magenta/5 text-magenta rounded-xl font-medium transition-colors">
-              <LayoutDashboard size={20} /> Dashboard
+              <LayoutDashboard size={20} /> {isStaff ? 'Dashboard' : 'My Records'}
             </a>
             {isStaff && (
               <>
@@ -136,11 +136,11 @@ export default function AdminDashboard() {
                 <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-medium transition-colors">
                   <Activity size={20} /> Live Operations
                 </a>
+                <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-medium transition-colors">
+                  <Settings size={20} /> Settings
+                </a>
               </>
             )}
-            <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-medium transition-colors">
-              <Settings size={20} /> Settings
-            </a>
           </nav>
         </div>
         <div className="mt-auto p-6 border-t border-gray-100">

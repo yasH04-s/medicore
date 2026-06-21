@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Calendar, Heart, CircleAlert, TrendingUp, Users, Activity } from 'lucide-react';
 
-const DoctorDashboard = () => {
-  const [patients, setPatients] = useState(127);
+const DoctorDashboard = ({ stats }) => {
   const [appointments, setAppointments] = useState(24);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPatients(prev => prev + Math.floor(Math.random() * 3) - 1);
       if (Math.random() > 0.7) setAppointments(prev => prev + 1);
     }, 3500);
     return () => clearInterval(interval);
   }, []);
+
+  const patients = stats ? stats.totalPatients : 127;
 
   return (
     <div className="relative group h-full">
@@ -90,17 +90,13 @@ const ProgressBar = ({ label, value }) => (
   </div>
 );
 
-const AdminAnalytics = () => {
-  const [revenue, setRevenue] = useState(1200500);
-  const [occupancy, setOccupancy] = useState(94);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRevenue(prev => prev + Math.floor(Math.random() * 100));
-      setOccupancy(prev => Math.min(100, Math.max(80, prev + Math.floor(Math.random() * 3) - 1)));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+const AdminAnalytics = ({ stats }) => {
+  const revenueStr = stats ? stats.revenue : "$1.200M";
+  const occupancy = stats ? stats.bedOccupancy : 94;
+  const totalStaff = stats ? stats.totalStaff : 1247;
+  const emergency = stats?.departmentPerformance?.emergency || 95;
+  const surgery = stats?.departmentPerformance?.surgery || 88;
+  const radiology = stats?.departmentPerformance?.radiology || 92;
 
   const formatRevenue = (val) => {
     return "$" + (val / 1000000).toFixed(3) + "M";
@@ -122,7 +118,7 @@ const AdminAnalytics = () => {
           <div className="flex items-center justify-between relative z-10">
             <div>
               <p className="text-sm text-white/80">Live Revenue</p>
-              <p className="text-3xl font-bold font-mono tracking-tight">{formatRevenue(revenue)}</p>
+              <p className="text-3xl font-bold font-mono tracking-tight">{revenueStr}</p>
             </div>
             <div className="p-3 bg-white/20 rounded-full animate-pulse">
               <TrendingUp className="w-6 h-6 text-white" />
@@ -134,7 +130,7 @@ const AdminAnalytics = () => {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:bg-white/10 transition-colors cursor-pointer">
             <Users className="w-5 h-5 text-blue-400 mb-2" />
-            <p className="text-2xl font-bold text-white">1,247</p>
+            <p className="text-2xl font-bold text-white">{totalStaff}</p>
             <p className="text-sm text-white/60">Total Staff</p>
           </div>
           <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:bg-white/10 transition-colors cursor-pointer">
@@ -152,9 +148,9 @@ const AdminAnalytics = () => {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-magenta"></span>
             </span>
           </h4>
-          <ProgressBar label="Emergency" value={95} />
-          <ProgressBar label="Surgery" value={88} />
-          <ProgressBar label="Radiology" value={92} />
+          <ProgressBar label="Emergency" value={emergency} />
+          <ProgressBar label="Surgery" value={surgery} />
+          <ProgressBar label="Radiology" value={radiology} />
         </div>
       </div>
     </div>
@@ -162,6 +158,15 @@ const AdminAnalytics = () => {
 };
 
 export default function DashboardPreview() {
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/public/stats`)
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(err => console.error('Error fetching public stats:', err));
+  }, []);
+
   return (
     <section className="py-24 bg-navy relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-magenta/20 rounded-full blur-[120px] pointer-events-none opacity-50"></div>
@@ -181,8 +186,8 @@ export default function DashboardPreview() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          <DoctorDashboard />
-          <AdminAnalytics />
+          <DoctorDashboard stats={stats} />
+          <AdminAnalytics stats={stats} />
         </div>
       </div>
     </section>

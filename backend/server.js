@@ -160,27 +160,50 @@ app.post('/api/records', authenticateToken, async (req, res) => {
   }
 });
 
-// Admin Analytics Endpoint
+// Admin & Public Analytics Endpoints
+const getStatsData = async () => {
+  const totalStaff = await User.countDocuments();
+  const totalPatients = await DemoRequest.countDocuments() + 1200; // Fake some base data
+  
+  // Generate dynamic pseudo-data for the rest
+  const baseRevenue = 1000000;
+  const revenue = baseRevenue + (totalPatients * 150) + (totalStaff * 500);
+  
+  return {
+    totalStaff,
+    totalPatients,
+    revenue: `$${(revenue / 1000000).toFixed(1)}M`,
+    bedOccupancy: Math.floor(Math.random() * 15) + 80, // Random between 80-95
+    departmentPerformance: {
+      emergency: Math.floor(Math.random() * 10) + 90,
+      surgery: Math.floor(Math.random() * 15) + 80,
+      radiology: Math.floor(Math.random() * 10) + 85
+    },
+    trendData: [
+      { name: 'Mon', admissions: 40 },
+      { name: 'Tue', admissions: 70 },
+      { name: 'Wed', admissions: 45 },
+      { name: 'Thu', admissions: 90 },
+      { name: 'Fri', admissions: 65 },
+      { name: 'Sat', admissions: 85 },
+      { name: 'Sun', admissions: 100 }
+    ]
+  };
+};
+
 app.get('/api/admin/stats', authenticateToken, async (req, res) => {
   try {
-    const totalStaff = await User.countDocuments();
-    const totalPatients = await DemoRequest.countDocuments() + 1200; // Fake some base data
-    
-    // Generate dynamic pseudo-data for the rest
-    const baseRevenue = 1000000;
-    const revenue = baseRevenue + (totalPatients * 150) + (totalStaff * 500);
-    
-    res.json({
-      totalStaff,
-      totalPatients,
-      revenue: `$${(revenue / 1000000).toFixed(1)}M`,
-      bedOccupancy: Math.floor(Math.random() * 15) + 80, // Random between 80-95
-      departmentPerformance: {
-        emergency: Math.floor(Math.random() * 10) + 90,
-        surgery: Math.floor(Math.random() * 15) + 80,
-        radiology: Math.floor(Math.random() * 10) + 85
-      }
-    });
+    const stats = await getStatsData();
+    res.json(stats);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/public/stats', async (req, res) => {
+  try {
+    const stats = await getStatsData();
+    res.json(stats);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

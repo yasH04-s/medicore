@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { LayoutDashboard, Users, Activity, Settings, LogOut, Search, Bell, TrendingUp, Plus } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const ProgressBar = ({ label, value }) => (
   <div className="mb-4">
@@ -239,16 +240,30 @@ export default function AdminDashboard() {
                   <option>This Month</option>
                 </select>
               </div>
-              {/* Fake Chart Area */}
-              <div className="h-64 w-full flex items-end justify-between gap-2 pt-10">
-                {[40, 70, 45, 90, 65, 85, 100].map((h, i) => (
-                  <div key={i} className="w-full bg-blue-50 rounded-t-sm relative group">
-                    <div className="absolute bottom-0 w-full bg-magenta rounded-t-sm transition-all duration-1000" style={{ height: `${h}%` }}></div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-between mt-4 text-xs text-gray-400 font-medium">
-                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+              {/* Real Chart Area */}
+              <div className="h-64 w-full pt-6">
+                {stats.trendData ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={stats.trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorAdmissions" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#ec4899" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#ec4899" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} dy={10} />
+                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
+                      <Tooltip 
+                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                        itemStyle={{ color: '#ec4899', fontWeight: 600 }}
+                      />
+                      <Area type="monotone" dataKey="admissions" stroke="#ec4899" strokeWidth={3} fillOpacity={1} fill="url(#colorAdmissions)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">Loading chart data...</div>
+                )}
               </div>
             </div>
 

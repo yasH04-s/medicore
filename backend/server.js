@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { FAQ, Module, Feature, Testimonial, Partner, DemoRequest, User } = require('./models');
+const { FAQ, Module, Feature, Testimonial, Partner, DemoRequest, User, Hospital, PatientRecord } = require('./models');
 const { handleIncomingMessage } = require('./chatbot');
 
 
@@ -42,7 +42,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Auth Endpoints
 app.post('/api/auth/signup', async (req, res) => {
-  const { name, email, hospitalName, password } = req.body;
+  const { name, email, hospitalName, password, role } = req.body;
   if (!name || !email || !hospitalName || !password) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -51,10 +51,24 @@ app.post('/api/auth/signup', async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ error: 'Email already exists' });
     }
+    
+    // Ensure hospital exists
+    let hospital = await Hospital.findOne({ name: hospitalName });
+    if (!hospital) {
+      hospital = new Hospital({ name: hospitalName });
+      await hospital.save();
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     
-    const newUser = new User({ name, email, hospitalName, password: hashedPassword });
+    const newUser = new User({ 
+      name, 
+      email, 
+      hospitalName, 
+      password: hashedPassword,
+      role: role || 'Patient'
+    });
     await newUser.save();
     
     res.status(201).json({ message: 'User created successfully' });
@@ -75,11 +89,72 @@ app.post('/api/auth/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
     
-    const payload = { userId: user._id, email: user.email, name: user.name };
+    const payload = { userId: user._id, email: user.email, name: user.name, role: user.role, hospitalName: user.hospitalName };
     const secret = process.env.JWT_SECRET || 'fallback_secret_for_dev';
     const token = jwt.sign(payload, secret, { expiresIn: '1d' });
     
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email, hospitalName: user.hospitalName } });
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email, hospitalName: user.hospitalName, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Hospitals Endpoints
+app.get('/api/hospitals', async (req, res) => {
+  try {
+    const hospitals = await Hospital.find().sort({ name: 1 });
+    res.json(hospitals);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Records Endpoints
+app.get('/api/records', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    let records;
+    if (user.role === 'Patient') {
+      records = await PatientRecord.find({ patientId: user._id }).sort({ createdAt: -1 });
+    } else {
+      // Admin or Doctor can see all records in their hospital
+      records = await PatientRecord.find({ hospitalName: user.hospitalName }).sort({ createdAt: -1 }).populate('patientId', 'name email');
+    }
+    res.json(records);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/records', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (user.role === 'Patient') {
+      return res.status(403).json({ error: 'Patients cannot create records' });
+    }
+
+    const { patientEmail, diagnosis, notes } = req.body;
+    if (!patientEmail || !diagnosis) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const patient = await User.findOne({ email: patientEmail, role: 'Patient' });
+    if (!patient) {
+      return res.status(404).json({ error: 'Patient with this email not found' });
+    }
+
+    const newRecord = new PatientRecord({
+      patientId: patient._id,
+      doctorName: user.name,
+      diagnosis,
+      notes,
+      hospitalName: user.hospitalName
+    });
+
+    await newRecord.save();
+    res.status(201).json(newRecord);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

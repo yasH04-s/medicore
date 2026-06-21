@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, User, Mail, Building, Lock } from 'lucide-react';
+import { ArrowRight, User, Mail, Building, Lock, Briefcase, Plus } from 'lucide-react';
 
 export default function Signup() {
-  const [formData, setFormData] = useState({ name: '', email: '', hospitalName: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', hospitalName: '', password: '', role: 'Patient' });
+  const [hospitals, setHospitals] = useState([]);
+  const [isNewHospital, setIsNewHospital] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch hospitals on mount
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/hospitals`)
+      .then(res => res.json())
+      .then(data => setHospitals(data))
+      .catch(err => console.error('Failed to fetch hospitals', err));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +75,25 @@ export default function Signup() {
             </div>
 
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Briefcase size={18} className="text-gray-400" />
+                </div>
+                <select
+                  required
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-magenta focus:border-magenta outline-none transition-all appearance-none"
+                  value={formData.role}
+                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                >
+                  <option value="Patient">Patient</option>
+                  <option value="Doctor">Doctor</option>
+                  <option value="Admin">Admin</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Work Email</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -82,19 +111,46 @@ export default function Signup() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Hospital Name</label>
+              <div className="flex justify-between items-center mb-1">
+                <label className="block text-sm font-medium text-gray-700">Hospital</label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNewHospital(!isNewHospital);
+                    setFormData({...formData, hospitalName: ''});
+                  }}
+                  className="text-xs text-magenta flex items-center gap-1 hover:underline"
+                >
+                  {isNewHospital ? 'Select Existing' : <><Plus size={12}/> Add New</>}
+                </button>
+              </div>
+              
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Building size={18} className="text-gray-400" />
                 </div>
-                <input
-                  type="text"
-                  required
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-magenta focus:border-magenta outline-none transition-all"
-                  placeholder="City General Hospital"
-                  value={formData.hospitalName}
-                  onChange={(e) => setFormData({...formData, hospitalName: e.target.value})}
-                />
+                {isNewHospital ? (
+                  <input
+                    type="text"
+                    required
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-magenta focus:border-magenta outline-none transition-all"
+                    placeholder="Enter new hospital name"
+                    value={formData.hospitalName}
+                    onChange={(e) => setFormData({...formData, hospitalName: e.target.value})}
+                  />
+                ) : (
+                  <select
+                    required
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-magenta focus:border-magenta outline-none transition-all appearance-none"
+                    value={formData.hospitalName}
+                    onChange={(e) => setFormData({...formData, hospitalName: e.target.value})}
+                  >
+                    <option value="" disabled>Select your hospital</option>
+                    {hospitals.map(h => (
+                      <option key={h._id} value={h.name}>{h.name}</option>
+                    ))}
+                  </select>
+                )}
               </div>
             </div>
 

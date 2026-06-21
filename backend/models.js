@@ -16,6 +16,23 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   hospitalName: { type: String, required: true },
   password: { type: String, required: true },
+  role: { type: String, enum: ['Admin', 'Doctor', 'Patient'], default: 'Patient' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// Hospital Schema
+const hospitalSchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// PatientRecord Schema
+const patientRecordSchema = new mongoose.Schema({
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  doctorName: { type: String, required: true },
+  diagnosis: { type: String, required: true },
+  notes: { type: String },
+  hospitalName: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -65,6 +82,8 @@ const Feature = mongoose.model('Feature', featureSchema);
 const Testimonial = mongoose.model('Testimonial', testimonialSchema);
 const Partner = mongoose.model('Partner', partnerSchema);
 const User = mongoose.model('User', userSchema);
+const Hospital = mongoose.model('Hospital', hospitalSchema);
+const PatientRecord = mongoose.model('PatientRecord', patientRecordSchema);
 
 module.exports = {
   DemoRequest,
@@ -73,5 +92,7 @@ module.exports = {
   Feature,
   Testimonial,
   Partner,
-  User
+  User,
+  Hospital,
+  PatientRecord
 };

@@ -123,7 +123,7 @@ export default function DemoForm() {
                     onChange={handleChange}
                     required
                     className={inputClass}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+91 861 874 0880"
                   />
                 </div>
                 <div>

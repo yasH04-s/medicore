@@ -6,7 +6,7 @@ const handleIncomingMessage = async (senderPhoneNumber, messageText) => {
   let replyText = '';
 
   if (text === '1' || text.includes('support')) {
-    replyText = 'Our support team is available 24/7! Please email support@medicorevault.com or call +1 (555) 123-4567.';
+    replyText = 'Our support team is available 24/7! Please email medicorevault@gmail.com or call +91 861 874 0880.';
   } else if (text === '2' || text.includes('pricing')) {
     replyText = 'We offer Starter, Professional, and Enterprise plans tailored to your facility size. Please reply with "3" to book a demo and discuss pricing in detail!';
   } else if (text === '3' || text.includes('demo') || text.includes('book')) {

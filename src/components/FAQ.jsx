@@ -66,7 +66,7 @@ export default function FAQ() {
           <p className="text-gray-600 mb-6">
             Our team is here to help. Get in touch and we'll respond within 24 hours.
           </p>
-          <a href="tel:+15551234567" className="inline-flex items-center gap-2 bg-magenta hover:bg-magenta-dark text-white font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer">
+          <a href="tel:+918618740880" className="inline-flex items-center gap-2 bg-magenta hover:bg-magenta-dark text-white font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer">
             <MessageCircle className="w-5 h-5" />
             Contact Support
           </a>

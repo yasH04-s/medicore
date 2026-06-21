@@ -184,6 +184,30 @@ app.get('/api/demo', async (req, res) => {
   }
 });
 
+// Web Chatbot Endpoint
+app.post('/api/chat', async (req, res) => {
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ error: 'Message is required' });
+  
+  const text = message.toLowerCase().trim();
+  let replyText = '';
+
+  if (text === '1' || text.includes('support')) {
+    replyText = 'Our support team is available 24/7! Please email medicorevault@gmail.com or call +91 861 874 0880.';
+  } else if (text === '2' || text.includes('pricing')) {
+    replyText = 'We offer Starter, Professional, and Enterprise plans tailored to your facility size. Please reply with "3" to book a demo and discuss pricing in detail!';
+  } else if (text === '3' || text.includes('demo') || text.includes('book')) {
+    replyText = 'Great! You can book a live demo directly on our website. We look forward to showing you the platform!';
+  } else {
+    replyText = 'Hi there! Welcome to Medicore Vault support.\n\nPlease reply with:\n1 - For Support\n2 - For Pricing\n3 - To Book a Demo';
+  }
+
+  // Add artificial delay to make it feel real
+  setTimeout(() => {
+    res.json({ reply: replyText });
+  }, 1000);
+});
+
 // --- WhatsApp Business Webhook Endpoints ---
 
 /**

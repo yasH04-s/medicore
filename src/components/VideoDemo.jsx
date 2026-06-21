@@ -20,50 +20,32 @@ export default function VideoDemo() {
         </div>
 
         <div className="relative max-w-5xl mx-auto mb-12">
-          <div
-            className="aspect-video bg-gray-100 rounded-3xl overflow-hidden shadow-2xl relative cursor-pointer"
-            onClick={() => setIsPlaying(!isPlaying)}
-          >
-            {!isPlaying ? (
-              <>
-                {/* Thumbnail / idle state */}
-                <div className="absolute inset-0 bg-navy/80 flex items-center justify-center">
-                  {/* Pulse ring */}
-                  <div className="absolute w-32 h-32 bg-magenta/50 rounded-full animate-ping opacity-30" />
-                  {/* Play button */}
-                  <button className="relative w-24 h-24 bg-white rounded-full shadow-2xl flex items-center justify-center z-10 hover:scale-105 transition-transform">
-                    <Play className="w-10 h-10 text-magenta ml-1" />
-                  </button>
-                </div>
+          <div className="aspect-video bg-gray-900 rounded-3xl overflow-hidden shadow-2xl relative group">
+            <video
+              className="w-full h-full object-cover"
+              controls
+              autoPlay
+              muted
+              loop
+              playsInline
+              name="media"
+            >
+              <source src="/HMS_Web_V2.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
 
-                {/* Bottom overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-6">
-                  <h3 className="text-white text-lg font-semibold">Full Platform Walkthrough</h3>
-                  <p className="text-white/70 text-sm">See how Medicore Vault transforms hospital management</p>
-                </div>
-              </>
-            ) : (
-              /* Playing state */
-              <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
-                <video 
-                  className="w-full h-full object-cover" 
-                  controls 
-                  autoPlay 
-                  name="media"
-                >
-                  {/* Using the local MP4 file from the public directory */}
-                  <source src="/HMS_Web_V2.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            )}
+            {/* Optional overlay that fades out on hover */}
+            <div className="absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black/60 to-transparent pointer-events-none opacity-100 group-hover:opacity-0 transition-opacity duration-500">
+              <h3 className="text-white text-lg font-semibold drop-shadow-md">Full Platform Walkthrough</h3>
+              <p className="text-white/90 text-sm drop-shadow-md">See how Medicore Vault transforms hospital management</p>
+            </div>
           </div>
 
           {/* Stats bar */}
           <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white px-8 py-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-6">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-navy" />
-              <span className="text-sm font-semibold text-navy">3 min</span>
+              <span className="text-sm font-semibold text-navy">45 sec</span>
               <span className="text-xs text-gray-400">Duration</span>
             </div>
             <div className="w-px h-6 bg-gray-200" />

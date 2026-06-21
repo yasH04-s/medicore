@@ -6,7 +6,7 @@
 // Simple keyword-based Q&A configuration
 const QA_RESPONSES = {
   pricing: "💰 *MediCore Vault Pricing*\n\nOur plans start at $49/month for individual clinics and $199/month for full-scale hospital systems. All plans include automated database backups, security compliance, and 24/7 uptime.\n\nReply with *DEMO* or visit our pricing page to learn more!",
-  support: "🛠️ *Technical Support*\n\nNeed help? Our technical support team is active 24/7. You can contact us at support@medicorevault.com or call our toll-free helpline at +1-800-555-0199.",
+  support: "🛠️ *Technical Support*\n\nNeed help? Our technical support team is active 24/7. You can contact us at medicorevault@gmail.com or call our toll-free helpline at +91 861 874 0880.",
   hours: "🕒 *Business Hours*\n\nOur head office and sales teams are active Monday to Friday from 9:00 AM to 6:00 PM EST.\n\nEmergency server and customer support lines are open 24/7/365.",
   demo: "📅 *Book a Demo*\n\nWe'd love to show you how MediCore Vault works! You can request a personalized product tour directly on our website or by visiting our Demo Portal. Our sales representative will follow up with you shortly.",
   hello: "👋 *Hello! Welcome to MediCore Vault Chatbot!*\n\nHow can we assist you today? You can type any of the following keywords for automated information:\n\n• *Pricing* (for plans & rates)\n• *Support* (for tech assistance)\n• *Hours* (for business hours)\n• *Demo* (to schedule a product tour)",

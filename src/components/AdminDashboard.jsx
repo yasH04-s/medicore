@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { LayoutDashboard, Users, Activity, Settings, LogOut, Search, Bell, TrendingUp, Plus } from 'lucide-react';
 
 const ProgressBar = ({ label, value }) => (

@@ -57,11 +57,11 @@ const DoctorDashboard = ({ stats }) => {
           </div>
         </div>
 
-        <div className="relative rounded-lg overflow-hidden group/img">
+        <div className="relative rounded-lg overflow-hidden group/img shadow-2xl border border-white/10">
           <img
-            src="/analytics-dashboard.png"
-            alt="Doctor using tablet"
-            className="w-full h-48 object-cover transform transition-transform duration-700 group-hover/img:scale-110"
+            src="/real-dashboard.png"
+            alt="Real Medicore Dashboard"
+            className="w-full object-cover transform transition-transform duration-700 hover:scale-105"
             onError={(e) => {
               e.target.style.display = 'none';
             }}

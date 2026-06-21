@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { FAQ, Module, Feature, Testimonial, Partner } = require('./models');
+const bcrypt = require('bcryptjs');
+const { FAQ, Module, Feature, Testimonial, Partner, User, Hospital, PatientRecord } = require('./models');
 
 const faqsData = [
   { q: 'How long does implementation take?', a: 'Typically 4-8 weeks depending on facility size and complexity. Our dedicated onboarding team works closely with your staff to ensure a smooth transition with minimal disruption to daily operations.' },
@@ -64,16 +65,69 @@ mongoose.connect(process.env.MONGO_URI)
     await Feature.deleteMany({});
     await Testimonial.deleteMany({});
     await Partner.deleteMany({});
+    await User.deleteMany({});
+    await Hospital.deleteMany({});
+    await PatientRecord.deleteMany({});
     console.log('Cleared old data...');
 
-    // Insert new data
+    // Insert new content data
     await FAQ.insertMany(faqsData);
     await Module.insertMany(modulesData);
     await Feature.insertMany(featuresData);
     await Testimonial.insertMany(testimonialsData);
     await Partner.insertMany(partnersData);
+    console.log('Seeded static content...');
+
+    // Seed Dummy Accounts
+    const hospitalName = "Apollo Hospital";
+    const hospital = await Hospital.create({ name: hospitalName });
+
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash('password123', salt);
+
+    const admin = await User.create({
+      name: "Dr. Admin Smith",
+      email: "admin@apollo.com",
+      hospitalName,
+      password,
+      role: "Admin"
+    });
+
+    const doctor = await User.create({
+      name: "Dr. Jane Doe",
+      email: "doctor@apollo.com",
+      hospitalName,
+      password,
+      role: "Doctor"
+    });
+
+    const patient = await User.create({
+      name: "John Patient",
+      email: "john@email.com",
+      hospitalName,
+      password,
+      role: "Patient"
+    });
+
+    // Seed Patient Records
+    await PatientRecord.create([
+      {
+        patientId: patient._id,
+        doctorName: doctor.name,
+        diagnosis: "Seasonal Flu",
+        notes: "Prescribed rest and fluids for 3 days.",
+        hospitalName
+      },
+      {
+        patientId: patient._id,
+        doctorName: doctor.name,
+        diagnosis: "Routine Checkup",
+        notes: "All vitals normal. Follow up next year.",
+        hospitalName
+      }
+    ]);
     
-    console.log('Successfully seeded database!');
+    console.log('Successfully seeded database with Users and Records!');
   } catch (err) {
     console.error('Error seeding database:', err);
   } finally {

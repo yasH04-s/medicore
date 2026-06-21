@@ -99,7 +99,6 @@ export default function DemoForm() {
                     onChange={handleChange}
                     required
                     className={inputClass}
-                    placeholder="John Doe"
                   />
                 </div>
                 <div>
@@ -111,7 +110,6 @@ export default function DemoForm() {
                     onChange={handleChange}
                     required
                     className={inputClass}
-                    placeholder="john@hospital.com"
                   />
                 </div>
                 <div>
@@ -122,8 +120,9 @@ export default function DemoForm() {
                     value={form.phone}
                     onChange={handleChange}
                     required
+                    pattern="[0-9\+\-\s]+"
+                    title="Please enter a valid phone number"
                     className={inputClass}
-                    placeholder="+91 861 874 0880"
                   />
                 </div>
                 <div>
@@ -135,18 +134,17 @@ export default function DemoForm() {
                     onChange={handleChange}
                     required
                     className={inputClass}
-                    placeholder="Metro Health Institute"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Message (Optional)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                   <textarea
                     name="message"
                     value={form.message}
                     onChange={handleChange}
+                    required
                     rows={3}
                     className={inputClass}
-                    placeholder="Tell us about your needs..."
                   />
                 </div>
                 <button

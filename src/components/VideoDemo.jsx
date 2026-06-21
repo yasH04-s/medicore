@@ -21,18 +21,13 @@ export default function VideoDemo() {
 
         <div className="relative max-w-5xl mx-auto mb-12">
           <div className="aspect-video bg-gray-900 rounded-3xl overflow-hidden shadow-2xl relative group">
-            <video
-              className="w-full h-full object-cover"
-              controls
-              autoPlay
-              muted
-              loop
-              playsInline
-              name="media"
-            >
-              <source src="/HMS_Web_V2.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <iframe
+              src="https://drive.google.com/file/d/1nf9lAToHu9g9-ybyNlv6gp3X0C82AD-o/preview"
+              className="w-full h-full object-cover border-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="Medicore Vault Walkthrough"
+            ></iframe>
 
             {/* Optional overlay that fades out on hover */}
             <div className="absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black/60 to-transparent pointer-events-none opacity-100 group-hover:opacity-0 transition-opacity duration-500">

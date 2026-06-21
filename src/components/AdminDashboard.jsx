@@ -184,7 +184,8 @@ export default function AdminDashboard() {
 
         {/* Analytics visible only to Staff */}
         {isStaff && stats && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-gradient-to-br from-magenta to-purple-600 rounded-2xl p-6 text-white shadow-lg shadow-magenta/20">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
@@ -279,6 +280,7 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
+          </>
         )}
 
         {/* Patient Records Section */}
